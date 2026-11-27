@@ -378,7 +378,7 @@ const closeV=(push=true)=>{
 };
 const step=d=>{if(cur<0)return;openP(DATA[(cur+d+DATA.length)%DATA.length].id)};
 const setLang=L=>{
-  if(!T[L])L='en';lang=L;document.documentElement.lang=L;
+  if(!T[L])L='en';lang=L;document.documentElement.lang=L;document.title={ru:'Богдан Гривюк — архитектор · Revit и 3D-визуализация',es:'Bogdan Griviuk — Arquitecto · Revit y visualización 3D'}[L]||'Bogdan Griviuk — Architect · Revit & 3D Visualization';
   for(const el of document.querySelectorAll('[data-t]')){const v=T[L][el.dataset.t];el.textContent=typeof v==='string'?v:''}
   for(const el of document.querySelectorAll('[data-h]'))el.innerHTML=T[L][el.dataset.h]??'';
   for(const b of document.querySelectorAll('[data-lang]'))b.setAttribute('aria-pressed',b.dataset.lang===L?'true':'false');
@@ -419,7 +419,7 @@ Tawk_API.onLoad=function(){var v=document.getElementById('viewer');if(!v)return;
   var f=function(){try{(v.classList.contains('on')&&innerWidth<760)?Tawk_API.hideWidget():Tawk_API.showWidget()}catch(e){}};
   new MutationObserver(f).observe(v,{attributes:true,attributeFilter:['class']});f()};
 (function(){var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;s1.src='https://embed.tawk.to/6b08dee2585aa53d00944567/default';s1.charset='UTF-8';s1.setAttribute('crossorigin','*');
+s1.async=true;s1.src='https://embed.tawk.to/6b08dee2585aa53d00944567/'+({ru:'1k8dbopua',es:'1k8dbscrb'}[document.documentElement.lang]||'default');s1.charset='UTF-8';s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);})();
 </script>
 <!--End of Tawk.to Script-->
