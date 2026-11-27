@@ -170,6 +170,7 @@ img,video{-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 .vbody figure.zoom .sp{width:220%}
 .vbody figure.ph.zoom{justify-content:center;align-items:center}.vbody figure.ph.zoom .sp{width:min(100%,calc((100vh - 20px) * var(--ar,1.5)));margin:auto}
 .vbody figure.zoom .sp img{cursor:zoom-out}
+.sp .bg{position:absolute;inset:0;background-repeat:no-repeat;cursor:zoom-in;-webkit-touch-callout:none}.vbody figure.zoom .sp .bg{cursor:zoom-out}
 .vbody .hint{color:#6d6d6a;font-size:13px;margin-bottom:16px}
 .vnext{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:40px;border-top:1px solid #222;padding-top:24px}
 @media(max-width:1100px){.sv-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -342,7 +343,7 @@ const drawGrid=()=>{
 const drawTl=()=>{$('tl').innerHTML=EXP[lang].map(([y,c,r,d,u])=>`<div class="job"><div class="y">${esc(y)}</div><div><h3>${u?`<a href="https://${esc(u)}" target="_blank" rel="noopener">${esc(c)} ↗</a>`:esc(c)}</h3><small>${esc(r)}${u?' · '+esc(u):''}</small></div><p>${esc(d)}</p></div>`).join('')};
 const drawSv=()=>{$('svgrid').innerHTML=SV[lang].map(([h,p,pr,u])=>`<div class="sv${pr?'':' ask'}"><h3>${esc(h)}</h3><p>${esc(p)}</p><div class="price">${esc(pr||T[lang].sv_deal)}${u?`<small>${esc(u)}</small>`:''}</div></div>`).join('')};
 let vtab=null;
-const fig=(x,alt,j)=>x.p?`<figure class="ph"${x.m?` style="max-width:${x.m}px;margin-left:auto;margin-right:auto"`:''}><div class="sp" style="aspect-ratio:${x.w}/${x.h};--ar:${(x.w/x.h).toFixed(3)}"><img src="img/${esc(x.s)}.jpg" alt="${esc(alt)}" loading="${j<2?'eager':'lazy'}" draggable="false" style="width:${x.W/x.w*100}%;left:0;top:${-x.y/x.h*100}%"></div><span class="wm" aria-hidden="true">Mountainight</span></figure>`:x.s?`<figure class="paper"><div class="sp" style="aspect-ratio:${x.w}/${x.h}"><img src="img/${esc(x.s)}.jpg" alt="${esc(alt)}" loading="eager" decoding="async" style="width:${x.W/x.w*100}%;left:${-x.x/x.w*100}%;top:${-x.y/x.h*100}%"></div></figure>`:`<figure class="ph"${x.m?` style="max-width:${x.m}px;margin-left:auto;margin-right:auto"`:''}><img src="img/${esc(x.f)}.jpg" width="${x.w}" height="${x.h}" alt="${esc(alt)}" loading="${j<2?'eager':'lazy'}" draggable="false"><span class="wm" aria-hidden="true">Mountainight</span></figure>`;
+const fig=(x,alt,j)=>x.p?`<figure class="ph"${x.m?` style="max-width:${x.m}px;margin-left:auto;margin-right:auto"`:''}><div class="sp" style="aspect-ratio:${x.w}/${x.h};--ar:${(x.w/x.h).toFixed(3)}"><img src="img/${esc(x.s)}.jpg" alt="${esc(alt)}" loading="${j<2?'eager':'lazy'}" draggable="false" style="width:${x.W/x.w*100}%;left:0;top:${-x.y/x.h*100}%"></div><span class="wm" aria-hidden="true">Mountainight</span></figure>`:x.s?`<figure class="paper"><div class="sp" style="aspect-ratio:${x.w}/${x.h}"><div class="bg" role="img" aria-label="${esc(alt)}" style="background-image:url('img/${esc(x.s)}.jpg');background-size:${(x.W/x.w*100).toFixed(4)}% auto;background-position:0 ${x.H>x.h?(x.y/(x.H-x.h)*100).toFixed(4):0}%"></div></div></figure>`:`<figure class="ph"${x.m?` style="max-width:${x.m}px;margin-left:auto;margin-right:auto"`:''}><img src="img/${esc(x.f)}.jpg" width="${x.w}" height="${x.h}" alt="${esc(alt)}" loading="${j<2?'eager':'lazy'}" draggable="false"><span class="wm" aria-hidden="true">Mountainight</span></figure>`;
 const isV=x=>!x.s&&x.h>x.w*1.05;
 const rows=(items,title)=>{const q=items.map((x,j)=>[x,j]);let out='';
   while(q.length){const [x,j]=q.shift();
@@ -393,7 +394,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#vnext')||e.target.closest('#vfwd')){step(1);return}
   if(e.target.closest('#vprev')||e.target.closest('#vback')){step(-1);return}
   const tb=e.target.closest('.tab');if(tb&&cur>=0){openP(DATA[cur].id,false,tb.dataset.tab);$('viewer').scrollTop=0;return}
-  const fig=e.target.closest('.vbody figure');if(fig&&e.target.tagName==='IMG'){fig.classList.toggle('zoom')}
+  const fig=e.target.closest('.vbody figure');if(fig&&(e.target.tagName==='IMG'||e.target.classList.contains('bg'))){fig.classList.toggle('zoom')}
 });
 document.addEventListener('keydown',e=>{
   if(cur<0)return;
